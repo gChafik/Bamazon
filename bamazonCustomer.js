@@ -45,10 +45,6 @@ function placeOrder(){
             connection.end();
         }
         else{
-            // console.log("Response: ", res[0]);
-            // console.log("Item ID" , res[0].item_id);
-            // console.log("Stock Quantity" , res[0].stock_quantity);
-            // console.log("Price" , res[0].price);
             console.log("Total Cost of Purchase: ", answer.quantity * res[0].price);
 
             //update product table
@@ -65,6 +61,21 @@ function placeOrder(){
                     console.log("Order placed successfully!");
                 }
             );
+            
+            //update product sales
+            connection.query("UPDATE PRODUCTS SET ? WHERE ?", 
+                [{
+                    product_sales : res[0].price * answer.quantity;
+                },
+                {
+                    item_id : res[0].item_id
+                }],
+                function(err){
+                    if (err) throw err;
+                    console.log("Product sales column has been updated successfully!");
+                }
+            );
+
             connection.end();
         }
     });
