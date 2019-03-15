@@ -65,7 +65,7 @@ function placeOrder(){
             //update product sales
             connection.query("UPDATE PRODUCTS SET ? WHERE ?", 
                 [{
-                    product_sales : res[0].price * answer.quantity;
+                    product_sales : res[0].price * answer.quantity
                 },
                 {
                     item_id : res[0].item_id

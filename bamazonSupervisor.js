@@ -43,18 +43,16 @@ function supView(){
 };
 
 function viewProductSales(){
-    let query = "select d.department_id, d.department_name, SUM( d.over_head_costs) AS over_head_costs,";
-    query += "SUM(p.product_sales) AS  product_sales,"; 
-    query += "SUM((p.product_sales - d.over_head_costs)) AS 'total_profit'";
-    query += "from departments d";
-    query += "inner join products p";
-    query += "on d.department_name = p.department_name";
-    query += "GROUP BY DEPARTMENT_NAME, department_id";
-    query += "ORDER BY DEPARTMENT_ID";
+    let query = "select departments.department_id, departments.department_name, SUM(departments.over_head_costs) AS over_head_costs, ";
+    query += "SUM(products.product_sales) AS  product_sales,"; 
+    query += "SUM((products.product_sales - departments.over_head_costs)) AS 'total_profit' ";
+    query += "from departments ";
+    query += "inner join products on departments.department_name = products.department_name ";
+    query += "GROUP BY departments.DEPARTMENT_NAME, departments.department_id ORDER BY departments.DEPARTMENT_ID ";
 
     connection.query(query, function(err, res){
         if (err) throw err;
-        console.log(res);
+        console.table(res);
         connection.end();
     });
 };
